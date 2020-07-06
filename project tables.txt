@@ -1,0 +1,83 @@
+create table service(
+service_id int not null,
+service_name varchar(35),
+hourly_rate int,
+constraint pka primary key(service_id))engine='innodb';
+
+
+create table mechanic(
+mechanic_id int,
+fname char(30),
+lname char(30),
+ph_no varchar(20),
+constraint pkb primary key(mechanic_id))engine='innodb';
+
+
+create table sales_person(
+salesperson_id int,
+fname char(30),
+lname char(30),
+constraint pkc primary key(salesperson_id))engine='innodb';
+
+
+create table car(
+car_id int,
+serial_num varchar(15),
+make varchar(20),
+model varchar(20),
+year int(4),
+color char(10),
+price int,
+forsale char(5),
+constraint pkd primary key(car_id))engine='innodb';
+
+
+create table customer(
+cust_id int,
+fname char(20),
+lname char(20),
+phone varchar(20),
+address char(20),
+post_code int,
+
+constraint pke primary key(cust_id))
+engine='innodb';
+
+
+create table sales_in_voice(
+invoid int,
+date date,
+car_id int,
+cust_id int,
+sales_per_id int,
+constraint pkf primary key(invoid),
+constraint fka foreign key(car_id) references car(car_id) on delete cascade,
+constraint fkb foreign key(cust_id) references customer(cust_id) on delete cascade,
+constraint fkc foreign key(sales_per_id) references sales_person(salesperson_id) on delete cascade)engine='innodb';
+
+
+create table service_ticket(
+service_ticket_id int,
+car_id int,
+cust_id int,
+date_recieve date,
+date_return date,
+constraint pkg primary key(service_ticket_id),
+constraint fkf foreign key(car_id) references car(car_id) on delete cascade,
+constraint fkg foreign key(cust_id) references customer(cust_id) on delete cascade)engine='innodb';
+
+
+create table service_mechanic(
+servicemech_id int,
+service_id int,
+mech_id int,
+hours time,
+serviceticket_id int,
+constraint pkh primary key(servicemech_id),
+constraint fkd foreign key(service_id) references service(service_id) on delete cascade,
+constraint fke foreign key(mech_id) references mechanic(mechanic_id) on delete cascade,
+constraint fkh foreign key(serviceticket_id) references service_ticket(service_ticket_id) on delete cascade)engine='innodb';
+
+
+
+
